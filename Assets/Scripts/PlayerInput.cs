@@ -12,24 +12,24 @@ public class PlayerInput : MonoBehaviour {
     public KeyCode dodgeLeft = KeyCode.A;
     public KeyCode punch = KeyCode.J;
     public KeyCode kick = KeyCode.K;
-    public KeyCode upperBlock = KeyCode.U;
-    public KeyCode lowerBlock = KeyCode.I;
+    public KeyCode highBlock = KeyCode.U;
+    public KeyCode lowBlock = KeyCode.I;
     public KeyCode fireball = KeyCode.O;
 
     [Header("References")]
-    public CharacterController cc;
+    public CharacterMotor motor;
 
     private void Awake() {
-        if (cc == null) cc = GetComponent<CharacterController>();
+        if (motor == null) motor = GetComponent<CharacterMotor>();
     }
 
     private void Update() {
-        if (cc == null) return;
+        if (motor == null) return;
 
         if (Input.GetKey(moveRight)) {
-            cc.SweepAndMove(cc.moveSpeed, 1.0f, true);
+            motor.SweepAndMove(motor.moveSpeed, 1.0f, true);
         } else if (Input.GetKey(moveLeft)) {
-            cc.SweepAndMove(cc.moveSpeed, -1.0f, true);
+            motor.SweepAndMove(motor.moveSpeed, -1.0f, true);
         }
     }
 }

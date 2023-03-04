@@ -5,13 +5,11 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
-public class CharacterController : MonoBehaviour {
+public class CharacterMotor : MonoBehaviour {
     
     [Header("Movement Settings")]
     [Range(.001f, 10.0f)]
     public float moveSpeed = 1.0f;
-    [Range(.001f, 10.0f)]
-    public float dodgeSpeed = 1.0f;
     [Range(.0f, 1.0f)]
     public float pushForce = .5f;
     public LayerMask canPush;
@@ -34,13 +32,9 @@ public class CharacterController : MonoBehaviour {
         rb.isKinematic = true;
     }
 
-    public void Update() {
-        
-    }
-
     [Header("Movement Debug")]
     public GameObject d_other;
-    public CharacterController d_needsToPush;
+    public CharacterMotor d_needsToPush;
     public float d_distance;
     public float d_direction;
     public int d_hitCount;
@@ -80,7 +74,7 @@ public class CharacterController : MonoBehaviour {
         if (hitCount == 0) Move(displacement);
         else {
             var closestDistance = distance;
-            CharacterController needsToPush = null;
+            CharacterMotor needsToPush = null;
             for (var i = 0; i < hitCount; i++) {
                 var moveHit = moveHits[i];
                 
@@ -90,13 +84,13 @@ public class CharacterController : MonoBehaviour {
                 if (moveHit.distance < closestDistance) {
                     closestDistance = moveHit.distance;
                     var other = moveHit.transform.gameObject;
-                    needsToPush = canPush.Contains(other.layer) ? other.GetComponent<CharacterController>() : null;
+                    needsToPush = canPush.Contains(other.layer) ? other.GetComponent<CharacterMotor>() : null;
 
                     d_other = other;
                 } else if (moveHit.distance == closestDistance) {
                     if (needsToPush != null) continue;
                     var other = moveHit.transform.gameObject;
-                    needsToPush = canPush.Contains(other.layer) ? other.GetComponent<CharacterController>() : null;
+                    needsToPush = canPush.Contains(other.layer) ? other.GetComponent<CharacterMotor>() : null;
                     
                     d_other = other;
                 }
@@ -111,7 +105,7 @@ public class CharacterController : MonoBehaviour {
             if (!pushes || needsToPush == null || remainingDistance <= float.Epsilon) Move(closestDistance * direction);
             else {
                 remainingDistance *= pushForce;
-                needsToPush.SweepAndMove(remainingDistance, direction, true);
+                needsToPush.SweepAndMove(remainingDistance, direction, false);
                 SweepAndMove(remainingDistance, direction, false);
             }
         }
@@ -121,10 +115,6 @@ public class CharacterController : MonoBehaviour {
         var pos = transform.position;
         pos.x += displacement;
         transform.position = pos;
-    }
-
-    public void Stop() {
-        
     }
     
     public void Turn() {
