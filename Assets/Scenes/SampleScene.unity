@@ -1587,7 +1587,7 @@ MonoBehaviour:
   perfectBlockSpatial: 0
   punchSfx: {fileID: 8300000, guid: 1f8da038578684396892ebb96fc7fe54, type: 3}
   kickSfx: {fileID: 8300000, guid: 1f8da038578684396892ebb96fc7fe54, type: 3}
-  fireBallSfx: {fileID: 8300000, guid: 22285ac999db7468c8053b9444d01f1d, type: 3}
+  fireBallSfx: {fileID: 8300000, guid: 0fc7ea1f4299748368ac18449f417ca5, type: 3}
   punchVol: 0.279
   kickVol: 0.293
   fireBallVol: 0.67
