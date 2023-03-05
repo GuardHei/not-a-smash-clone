@@ -13,3 +13,16 @@ public enum CharacterState {
     Stunned = 1 << 8,
     BlockRecovery = 1 << 9
 }
+
+public enum AnimCharacterState {
+    Idle = 0,
+    MoveFront = 1,
+    MoveBack = 2,
+    Punch = 3,
+    Kick = 4,
+    FireBall = 5,
+    HighBlock = 6,
+    LowBlock = 7,
+    Stunned = 8,
+    BlockRecovery = 9
+}

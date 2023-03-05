@@ -8,6 +8,7 @@ using UnityEngine.Events;
 public class CharacterMotor : MonoBehaviour {
     
     [Header("Movement Settings")]
+    public CharacterFacing defaultFacing = CharacterFacing.Right;
     [Range(.001f, 10.0f)]
     public float moveSpeed = 1.0f;
     [Range(.0f, 1.0f)]
@@ -30,6 +31,8 @@ public class CharacterMotor : MonoBehaviour {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         rb.isKinematic = true;
+
+        facing = defaultFacing;
     }
 
     [Header("Movement Debug")]

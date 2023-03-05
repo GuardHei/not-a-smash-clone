@@ -4,6 +4,8 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 public class StateController : MonoBehaviour {
+    
+    public static readonly int AnimStateIndex = Animator.StringToHash("stateIndex");
 
     [Header("Settings")]
     public int punchStartFrames;
@@ -27,7 +29,7 @@ public class StateController : MonoBehaviour {
 
     [Header("References")]
     public CharacterMotor motor;
-    public AnimatorController animator;
+    public Animator animator;
     public Damageable damageable;
     public HitBox punchHitBox;
     public HitBox kickHitBox;
@@ -85,37 +87,45 @@ public class StateController : MonoBehaviour {
     private void StartIdle() {
         currState = CharacterState.Idle;
         stateStartFrame = currFrame;
+        animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.Idle);
     }
 
     private void StartMove(CharacterFacing direction) {
         currState = CharacterState.Move;
         stateStartFrame = currFrame;
         moveDirection = direction;
+        if (motor.defaultFacing == direction) animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.MoveFront);
+        else animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.MoveBack);
     }
 
     private void StartPunch() {
         currState = CharacterState.Punch;
         stateStartFrame = currFrame;
+        animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.Punch);
     }
     
     private void StartKick() {
         currState = CharacterState.Kick;
         stateStartFrame = currFrame;
+        animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.Kick);
     }
 
     private void StartFireBall() {
         currState = CharacterState.FireBall;
         stateStartFrame = currFrame;
+        animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.FireBall);
     }
 
     private void StartHighBlock() {
         currState = CharacterState.HighBlock;
         stateStartFrame = currFrame;
+        animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.HighBlock);
     }
 
     private void StartLowBlock() {
         currState = CharacterState.LowBlock;
         stateStartFrame = currFrame;
+        animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.LowBlock);
     }
 
     private void StartStunned() {
@@ -125,11 +135,13 @@ public class StateController : MonoBehaviour {
         stunPushDirection = damageInfo.direction;
         currState = CharacterState.Stunned;
         stateStartFrame = currFrame;
+        animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.Stunned);
     }
 
     private void StartBlockRecovery() {
         currState = CharacterState.BlockRecovery;
         stateStartFrame = currFrame;
+        animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.BlockRecovery);
     }
 
     private void UpdateIdle() {
