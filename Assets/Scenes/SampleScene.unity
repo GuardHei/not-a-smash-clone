@@ -2060,7 +2060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSrc: {fileID: 1049931644}
-  opponentSrc: {fileID: 1469389392}
+  opponentSrc: {fileID: 398526774}
   sfxSrcPrototype: {fileID: 6316594276254900146, guid: d9bba6db9eb8145229dddc9bd3b2f8d8, type: 3}
 --- !u!1 &1469389384
 GameObject:
