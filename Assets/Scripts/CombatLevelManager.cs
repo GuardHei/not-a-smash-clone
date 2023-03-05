@@ -66,6 +66,7 @@ public class CombatLevelManager : MonoBehaviour {
 
     private void Update() {
         if (Input.GetKeyUp(restartKey)) Restart();
+        if (Input.GetKeyUp(KeyCode.Escape)) Application.Quit();
     }
 
     public void SetFramerate() {
@@ -91,21 +92,25 @@ public class CombatLevelManager : MonoBehaviour {
     }
 
     private IEnumerator GameStartRoutine() {
+        lighteningLight.intensity = 1.0f;
+        lighteningLight.gameObject.SetActive(true);
         yield return new WaitForSeconds(timeTo3);
         if (ui3 != null) ui3.SetActive(true);
+        SFXManager.PlaySFX(openingSfx, Vector2.zero, 1.0f, 128, .0f, .0f);
         yield return new WaitForSeconds(timeTo2);
         if (ui2 != null) ui2.SetActive(true);
         if (ui3 != null) ui3.SetActive(false);
         yield return new WaitForSeconds(timeTo1);
         if (ui1 != null) ui1.SetActive(true);
         if (ui2 != null) ui2.SetActive(false);
+        lighteningLight.gameObject.SetActive(false);
         yield return new WaitForSeconds(timeToStart);
         if (uiStart != null) uiStart.SetActive(true);
         if (ui1 != null) ui1.SetActive(false);
         SetControl(true, true);
         StartCoroutine(SpawnLighteningRoutine());
         yield return new WaitForSeconds(timeToEnd);
-        if (uiStart != null) uiStart.SetActive(true);
+        if (uiStart != null) uiStart.SetActive(false);
     }
 
     public void PlayerWin() {
