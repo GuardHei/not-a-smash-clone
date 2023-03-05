@@ -24,7 +24,7 @@ public class SFXManager : MonoBehaviour {
         }
     }
 
-    public static void PlaySFX(AudioClip sfx, Vector2 position, float volume = 1.0f, int priority = -1) {
+    public static void PlaySFX(AudioClip sfx, Vector2 position, float volume = 1.0f, int priority = -1, float delay = .0f, float spatial = .0f) {
         if (sfx == null) return;
         GameObject src;
         if (instance.sfxPool.Count > 0) {
@@ -34,8 +34,14 @@ public class SFXManager : MonoBehaviour {
         src.transform.position = position;
         var audio = src.GetComponent<AudioSource>();
         audio.priority = priority;
-        audio.PlayOneShot(sfx, audio.volume);
-        instance.RecycleOnTime(src, sfx.length);
+        audio.spatialBlend = spatial;
+        audio.loop = false;
+        audio.mute = false;
+        audio.clip = sfx;
+        audio.time = .0f;
+        audio.volume = volume;
+        audio.PlayDelayed(delay);
+        instance.RecycleOnTime(src, delay + sfx.length);
     }
 
     public void Recycle(GameObject go) {
@@ -50,14 +56,16 @@ public class SFXManager : MonoBehaviour {
         Recycle(go);
     }
 
-    public static void PlayPlayer(AudioClip sfx, float volume = -1.0f) => PlayFixed(instance.playerSrc, sfx, volume);
+    public static void PlayPlayer(AudioClip sfx, float volume = -1.0f, float delay = .0f) => PlayFixed(instance.playerSrc, sfx, volume, delay);
     
-    public static void PlayOpponent(AudioClip sfx, float volume = -1.0f) => PlayFixed(instance.opponentSrc, sfx, volume);
+    public static void PlayOpponent(AudioClip sfx, float volume = -1.0f, float delay = .0f) => PlayFixed(instance.opponentSrc, sfx, volume, delay);
 
-    public static void PlayFixed(AudioSource src, AudioClip sfx, float volume = -1.0f) {
+    public static void PlayFixed(AudioSource src, AudioClip sfx, float volume = -1.0f, float delay = .0f) {
         if (src == null || sfx == null) return;
         src.Stop();
         src.clip = sfx;
         if (volume >= .0f) src.volume = volume;
+        src.time = .0f;
+        src.PlayDelayed(delay);
     }
 }

@@ -81,6 +81,7 @@ public class CombatLevelManager : MonoBehaviour {
             Utils.Print("Lightening coming in " + interval + "s");
             var soundInterval = Mathf.Max(interval - lighteningSfxPushTime, .0f);
             yield return new WaitForSeconds(soundInterval);
+            SFXManager.PlaySFX(lighteningSfx, Vector2.zero, lighteningVol, 128, .0f);
             var restInterval = interval - soundInterval;
             yield return new WaitForSeconds(restInterval);
             lighteningLight.gameObject.SetActive(true);

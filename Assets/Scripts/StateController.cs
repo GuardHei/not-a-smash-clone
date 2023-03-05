@@ -27,6 +27,7 @@ public class StateController : MonoBehaviour {
     public int perfectBlockMpRegen;
 
     [Header("SFX")]
+    public AudioSource mouth;
     public AudioClip normalHitSfx;
     public AudioClip blockSfx;
     public AudioClip perfectBlockSfx;
@@ -36,6 +37,10 @@ public class StateController : MonoBehaviour {
     public float blockVol = 1.0f;
     [Range(.0f, 1.0f)]
     public float perfectBlockVol = 1.0f;
+    [Range(.0f, 1.0f)]
+    public float blockSpatial = .0f;
+    [Range(.0f, 1.0f)]
+    public float perfectBlockSpatial = .0f;
     public AudioClip punchSfx;
     public AudioClip kickSfx;
     public AudioClip fireBallSfx;
@@ -45,6 +50,7 @@ public class StateController : MonoBehaviour {
     public float kickVol;
     [Range(.0f, 1.0f)]
     public float fireBallVol;
+    public float fireBallSfxDelay = 1.0f;
     
 
     [Header("References")]
@@ -83,19 +89,19 @@ public class StateController : MonoBehaviour {
             damageable.onHighBlocked += (dmg, info, perfect) => {
                 if (perfect) {
                     AddMp(perfectBlockMpRegen);
-                    SFXManager.PlaySFX(perfectBlockSfx, info.hitPosition, perfectBlockVol, 200);
+                    SFXManager.PlaySFX(perfectBlockSfx, info.hitPosition, perfectBlockVol, 200, .0f, perfectBlockSpatial);
                 } else {
                     AddMp(blockMpRegen);
-                    SFXManager.PlaySFX(blockSfx, info.hitPosition, blockVol, 195);
+                    SFXManager.PlaySFX(blockSfx, info.hitPosition, blockVol, 195, .0f, blockSpatial);
                 }
             };
             damageable.onLowBlocked += (dmg, info, perfect) => {
                 if (perfect) {
                     AddMp(perfectBlockMpRegen);
-                    SFXManager.PlaySFX(perfectBlockSfx, info.hitPosition, perfectBlockVol, 200);
+                    SFXManager.PlaySFX(perfectBlockSfx, info.hitPosition, perfectBlockVol, 200, .0f, perfectBlockSpatial);
                 } else {
                     AddMp(blockMpRegen);
-                    SFXManager.PlaySFX(blockSfx, info.hitPosition, blockVol, 195);
+                    SFXManager.PlaySFX(blockSfx, info.hitPosition, blockVol, 195, .0f, blockSpatial);
                 }
             };
         }
@@ -138,21 +144,21 @@ public class StateController : MonoBehaviour {
         currState = CharacterState.Punch;
         stateStartFrame = currFrame;
         animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.Punch);
-        SFXManager.PlayPlayer(punchSfx, punchVol);
+        SFXManager.PlayFixed(mouth, punchSfx, punchVol);
     }
     
     private void StartKick() {
         currState = CharacterState.Kick;
         stateStartFrame = currFrame;
         animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.Kick);
-        SFXManager.PlayPlayer(kickSfx, kickVol);
+        SFXManager.PlayFixed(mouth, kickSfx, kickVol);
     }
 
     private void StartFireBall() {
         currState = CharacterState.FireBall;
         stateStartFrame = currFrame;
         animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.FireBall);
-        SFXManager.PlayPlayer(fireBallSfx, fireBallVol);
+        SFXManager.PlayFixed(mouth, fireBallSfx, fireBallVol, fireBallSfxDelay);
     }
 
     private void StartHighBlock() {
@@ -197,8 +203,8 @@ public class StateController : MonoBehaviour {
             case InputCommand.FireBall:
                 if (HaveEnoughMpFor(fireBallMpCost)) StartFireBall();
                 break;
-            case InputCommand.HighBlock: StartFireBall(); break;
-            case InputCommand.LowBlock: StartFireBall(); break;
+            case InputCommand.HighBlock: StartHighBlock(); break;
+            case InputCommand.LowBlock: StartLowBlock(); break;
         }
     }
 
@@ -223,8 +229,8 @@ public class StateController : MonoBehaviour {
             case InputCommand.FireBall:
                 if (HaveEnoughMpFor(fireBallMpCost)) StartFireBall();
                 break;
-            case InputCommand.HighBlock: StartFireBall(); break;
-            case InputCommand.LowBlock: StartFireBall(); break;
+            case InputCommand.HighBlock: StartHighBlock(); break;
+            case InputCommand.LowBlock: StartLowBlock(); break;
         }
     }
 
@@ -353,7 +359,7 @@ public class StateController : MonoBehaviour {
     }
 
     private void TakeDamage(Damageable damageable, DamageInfo info) {
-        SFXManager.PlayPlayer(normalHitSfx, normalHitVol);
+        SFXManager.PlayFixed(mouth, normalHitSfx, normalHitVol);
         damaged = true;
         damageInfo = info;
     }

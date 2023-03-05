@@ -407,6 +407,9 @@ MonoBehaviour:
   speed: 0.08
   direction: -1
   hitBox: {fileID: 8216973207606125809}
+  damageable: {fileID: 8216973207402128334}
+  hitSfx: {fileID: 8300000, guid: 29317183eb6954691aa007436087b247, type: 3}
+  hitVol: 1
 --- !u!114 &8216973207606125809
 MonoBehaviour:
   m_ObjectHideFlags: 0
