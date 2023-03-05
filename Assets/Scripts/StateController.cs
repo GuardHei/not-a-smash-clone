@@ -67,6 +67,7 @@ public class StateController : MonoBehaviour {
     public HitBox kickHitBox;
     public Transform fireBallOrigin;
     public GameObject fireBallPrototype;
+    public Transform footStepOrigin;
 
     [Header("Status")]
     public bool damaged;
@@ -144,7 +145,8 @@ public class StateController : MonoBehaviour {
         moveDirection = direction;
         if (motor.defaultFacing == direction) animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.MoveFront);
         else animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.MoveBack);
-        PlayFootStep();
+        PlayFootStepSfx();
+        PlayFootStepVfx();
     }
 
     private void StartPunch() {
@@ -224,7 +226,8 @@ public class StateController : MonoBehaviour {
         motor.SweepAndMove(motor.moveSpeed, (int) moveDirection, true);
 
         if (frameProgress % footStepSfxInterval == 0) {
-            PlayFootStep();
+            PlayFootStepSfx();
+            PlayFootStepVfx();
         }
 
         switch (currCommand) {
@@ -375,9 +378,20 @@ public class StateController : MonoBehaviour {
         damageInfo = info;
     }
 
-    private void PlayFootStep() {
+    private void PlayFootStepSfx() {
         if (footStepSrc == null || footStepSfx == null || footStepSfx.Count == 0) return;
         var sfx = footStepSfx[Random.Range(0, footStepSfx.Count)];
         SFXManager.PlayFixed(footStepSrc, sfx, footStepVol);
+    }
+
+    private void PlayFootStepVfx() {
+        if (footStepOrigin == null) return;
+        var vfx = VFXManager.instance.Get(VFXManager.FOOT_STEP);
+        vfx.transform.position = footStepOrigin.position;
+        vfx.SetActive(true);
+        var ps = vfx.GetComponent<ParticleSystem>();
+        ps.Play(true);
+            
+        VFXManager.instance.RecycleOnTime(VFXManager.FOOT_STEP, vfx, ps.main.duration + .1f);
     }
 }

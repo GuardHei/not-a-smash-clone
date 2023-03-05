@@ -8,6 +8,7 @@ public class VFXManager : MonoBehaviour {
     public const string NORMAL_HIT = "normal_hit";
     public const string BLOCKED_HIT = "blocked_hit";
     public const string PERFECT_BLOCK = "perfect_block";
+    public const string FOOT_STEP = "foot_step";
     public const int INIT_SIZE = 4;
 
     public static VFXManager instance;
@@ -15,6 +16,7 @@ public class VFXManager : MonoBehaviour {
     public GameObject normalHitVfx;
     public GameObject blockedHitVfx;
     public GameObject perfectBlockVfx;
+    public GameObject footStepVfx;
 
     private readonly Dictionary<string, GameObject> vfxPrototypes = new();
     private readonly Dictionary<string, Queue<GameObject>> vfxPools = new();
@@ -24,10 +26,12 @@ public class VFXManager : MonoBehaviour {
         vfxPools[NORMAL_HIT] = new Queue<GameObject>(INIT_SIZE);
         vfxPools[BLOCKED_HIT] = new Queue<GameObject>(INIT_SIZE);
         vfxPools[PERFECT_BLOCK] = new Queue<GameObject>(INIT_SIZE);
+        vfxPools[FOOT_STEP] = new Queue<GameObject>(INIT_SIZE);
 
         vfxPrototypes[NORMAL_HIT] = normalHitVfx;
         vfxPrototypes[BLOCKED_HIT] = blockedHitVfx;
         vfxPrototypes[PERFECT_BLOCK] = perfectBlockVfx;
+        vfxPrototypes[FOOT_STEP] = footStepVfx;
 
         for (var i = 0; i < INIT_SIZE; i++) {
             var vfx = Instantiate(vfxPrototypes[NORMAL_HIT]);
@@ -39,6 +43,9 @@ public class VFXManager : MonoBehaviour {
             vfx = Instantiate(vfxPrototypes[PERFECT_BLOCK]);
             vfx.SetActive(false);
             vfxPools[PERFECT_BLOCK].Enqueue(vfx);
+            vfx = Instantiate(vfxPrototypes[FOOT_STEP]);
+            vfx.SetActive(false);
+            vfxPools[FOOT_STEP].Enqueue(vfx);
         }
     }
 
