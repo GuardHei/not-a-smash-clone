@@ -1697,6 +1697,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetFrameRate: 60
+  restartKey: 8
+  player: {fileID: 0}
+  opponent: {fileID: 0}
+  ko: {fileID: 0}
+  winUI: {fileID: 0}
+  loseUI: {fileID: 0}
+  ui3: {fileID: 0}
+  ui2: {fileID: 0}
+  ui1: {fileID: 0}
+  uiStart: {fileID: 0}
+  openingSfx: {fileID: 0}
+  timeTo3: 0
+  timeTo2: 0
+  timeTo1: 0
+  timeToStart: 0
+  timeToEnd: 0
   globalUnlitLight: {fileID: 2085924256}
   lighteningLight: {fileID: 911126831}
   localPointLight: {fileID: 619394801}
@@ -2095,6 +2111,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
   playerT: {fileID: 0}
+  comboStartLines:
+  - {fileID: 8300000, guid: 671b56e73c3c6440bb3f0bbc0da67d07, type: 3}
+  - {fileID: 8300000, guid: baadbca46249c4d51af6db008c19af6c, type: 3}
+  - {fileID: 8300000, guid: f7d9807e2cd764cbf89c8b6fdaf73855, type: 3}
   attackStrings: []
   executingCombo: 0
   comboIdx: 0
