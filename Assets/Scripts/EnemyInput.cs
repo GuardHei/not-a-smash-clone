@@ -6,8 +6,8 @@ public class EnemyInput : MonoBehaviour
 {
     static string attackStringInputs = "PK";  
     static int numAttackStrings = 3;
-    static int minAttackStringLength = 1;
-    static int maxAttackString = 3;
+    static int minAttackStringLength = 2;
+    static int maxAttackString = 4;
     static float closeToPlayerRange = 3f; //Range at which player is considered "close"
     static float minBlockDuration = 0.5f;
     static float maxBlockDuration = 0.1f;
@@ -21,6 +21,7 @@ public class EnemyInput : MonoBehaviour
     [Header("References")]
     public StateController controller;
     public Transform playerT;
+    public List<AudioClip> comboStartLines;
 
     [Header("Status")]
     public List<string> attackStrings;
@@ -53,17 +54,14 @@ public class EnemyInput : MonoBehaviour
         //Generate random attack strings
         for (int i = 0; i < numAttackStrings; i++) 
         {
-            string attackString = "";
+            string attackString = "W";
             int stringLength = Random.Range(minAttackStringLength, maxAttackString + 1);
             for (int e = 0; e < stringLength; e++) 
             {
                 int attackCharIdx = Random.Range(0, attackStringInputs.Length);
                 char attack = attackStringInputs[attackCharIdx];
-                if (attackString.Length > 0 && attackString[attackString.Length - 1] != attack) 
-                {
-                    attackString += 'W';
-                }
                 attackString += attack;
+                attackString += "W";
             }
             attackStrings.Add(attackString);
 
@@ -189,6 +187,7 @@ public class EnemyInput : MonoBehaviour
     {
         comboIdx = -1;
         currCombo = Random.Range(0, attackStrings.Count);
+        SFXManager.PlayOpponent(comboStartLines[currCombo]);
         executingCombo = true;
     }
 
