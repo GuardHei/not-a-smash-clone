@@ -3,6 +3,21 @@ using UnityEngine.Events;
 
 public class Damageable : MonoBehaviour {
 
+    [Header("Lighting Settings")]
+    public float blockLightIntensity = .5f;
+    public float blockLightScale = 12.0f;
+    public float blockLightPhase1 = 1.0f;
+    public float blockLightPhase2 = 1.0f;
+    public float perfectBlockLightIntensity = 1.0f;
+    public float perfectBlockLightScale = 18.0f;
+    public float perfectBlockLightPhase1 = 2.0f;
+    public float perfectBlockLightPhase2 = 2.0f;
+    public float hitLightIntensity = .5f;
+    public float hitLightScale = 12.0f;
+    public float hitLightPhase1 = 1.0f;
+    public float hitLightPhase2 = 1.0f;
+
+    [Header("References")]
     public Health health;
     public CharacterMotor motor;
     public StateController controller;
@@ -25,6 +40,8 @@ public class Damageable : MonoBehaviour {
             ps.Play(true);
             
             VFXManager.instance.RecycleOnTime(vfxName, vfx, ps.main.duration + .1f);
+            if (perfect) CombatLevelManager.SparkLocally(info.hitPosition, perfectBlockLightPhase1, perfectBlockLightPhase2, perfectBlockLightIntensity, perfectBlockLightScale);
+            else CombatLevelManager.SparkLocally(info.hitPosition, blockLightPhase1, blockLightPhase2, blockLightIntensity, blockLightScale);
         };
         
         onLowBlocked += (dmg, info, perfect) => {
@@ -36,6 +53,8 @@ public class Damageable : MonoBehaviour {
             ps.Play(true);
             
             VFXManager.instance.RecycleOnTime(vfxName, vfx, ps.main.duration + .1f);
+            if (perfect) CombatLevelManager.SparkLocally(info.hitPosition, perfectBlockLightPhase1, perfectBlockLightPhase2, perfectBlockLightIntensity, perfectBlockLightScale);
+            else CombatLevelManager.SparkLocally(info.hitPosition, blockLightPhase1, blockLightPhase2, blockLightIntensity, blockLightScale);
         };
         
         onDamaged += (dmg, info) => {
@@ -46,6 +65,7 @@ public class Damageable : MonoBehaviour {
             ps.Play(true);
             
             VFXManager.instance.RecycleOnTime(VFXManager.NORMAL_HIT, vfx, ps.main.duration + .1f);
+            CombatLevelManager.SparkLocally(info.hitPosition, hitLightPhase1, hitLightPhase2, hitLightIntensity, hitLightScale);
         };
     }
 
