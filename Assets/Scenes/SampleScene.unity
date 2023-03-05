@@ -258,7 +258,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158177952}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.48, y: -0.65, z: 0}
+  m_LocalPosition: {x: -1.48, y: -0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1422,8 +1422,8 @@ MonoBehaviour:
   kickEndFrames: 15
   fireBallStartFrames: 63
   fireBallEndFrames: 21
-  perfectBlockFrames: 20
-  blockEndFrames: 20
+  perfectBlockFrames: 15
+  blockEndFrames: 15
   maxMp: 50
   currMp: 25
   fireBallMpCost: 25
@@ -1747,10 +1747,10 @@ MonoBehaviour:
   kickStartFrames: 5
   kickDamageFrames: 5
   kickEndFrames: 15
-  fireBallStartFrames: 15
-  fireBallEndFrames: 60
-  perfectBlockFrames: 20
-  blockEndFrames: 20
+  fireBallStartFrames: 63
+  fireBallEndFrames: 21
+  perfectBlockFrames: 15
+  blockEndFrames: 15
   maxMp: 0
   currMp: 0
   fireBallMpCost: 0
@@ -1763,7 +1763,7 @@ MonoBehaviour:
   punchHitBox: {fileID: 279536721}
   kickHitBox: {fileID: 1000145770}
   fireBallOrigin: {fileID: 158177953}
-  fireBallPrototype: {fileID: 0}
+  fireBallPrototype: {fileID: 8216973207606125804, guid: b96a79070dfaa4e9e8a8009a19bb8395, type: 3}
   damaged: 0
   stunFrames: 0
   stunPush: 0
