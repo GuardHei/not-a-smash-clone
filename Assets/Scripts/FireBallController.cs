@@ -8,10 +8,15 @@ public class FireBallController : MonoBehaviour {
     public float speed;
     public CharacterFacing direction;
     public HitBox hitBox;
+    public Damageable damageable;
+    public AudioClip hitSfx;
+    [Range(.0f, 1.0f)]
+    public float hitVol = 1.0f;
 
     private void Awake() {
         if (hitBox == null) hitBox = GetComponent<HitBox>();
         if (hitBox != null) hitBox.Activate(direction);
+        if (damageable != null) damageable.onDamaged += (dmg, info) => SFXManager.PlaySFX(hitSfx, info.hitPosition, hitVol, 128);
     }
 
     private void Update() {

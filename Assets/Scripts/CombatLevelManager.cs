@@ -25,6 +25,10 @@ public class CombatLevelManager : MonoBehaviour {
     public float maxLighteningPhase1;
     public float minLighteningPhase2;
     public float maxLighteningPhase2;
+    public AudioClip lighteningSfx;
+    public float lighteningVol;
+    [Range(.0f, 3.0f)]
+    public float lighteningSfxPushTime;
 
     public Coroutine lastSparkRoutine;
 
@@ -75,7 +79,10 @@ public class CombatLevelManager : MonoBehaviour {
         while (true) {
             var interval = Random.Range(minLighteningInterval, maxLighteningInterval);
             Utils.Print("Lightening coming in " + interval + "s");
-            yield return new WaitForSeconds(interval);
+            var soundInterval = Mathf.Max(interval - lighteningSfxPushTime, .0f);
+            yield return new WaitForSeconds(soundInterval);
+            var restInterval = interval - soundInterval;
+            yield return new WaitForSeconds(restInterval);
             lighteningLight.gameObject.SetActive(true);
             lighteningLight.intensity = lighteningIntensity;
             yield return new WaitForSeconds(Random.Range(minLighteningPhase1, maxLighteningPhase1));

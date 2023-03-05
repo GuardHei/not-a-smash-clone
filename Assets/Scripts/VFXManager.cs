@@ -8,7 +8,7 @@ public class VFXManager : MonoBehaviour {
     public const string NORMAL_HIT = "normal_hit";
     public const string BLOCKED_HIT = "blocked_hit";
     public const string PERFECT_BLOCK = "perfect_block";
-    public const int INIT_SIZE = 1;
+    public const int INIT_SIZE = 4;
 
     public static VFXManager instance;
 
