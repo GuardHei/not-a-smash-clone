@@ -36,6 +36,8 @@ public class Damageable : MonoBehaviour {
             }
         }
         
+        Utils.Print(tag + " takes " + info.damage + " hit, aiming " + info.direction);
+        
         health.Hit(info.damage);
         onDamaged?.Invoke(this, info);
     }
@@ -43,6 +45,8 @@ public class Damageable : MonoBehaviour {
 
 public struct DamageInfo {
     public int damage;
+    public int stunFrames;
+    public float stunPush;
     public CharacterFacing direction;
     public bool canBeHighBlocked;
     public bool canBeLowBlocked;

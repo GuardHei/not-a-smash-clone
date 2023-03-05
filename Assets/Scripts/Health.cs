@@ -12,6 +12,10 @@ public class Health : MonoBehaviour {
     public UnityEvent onHeal;
     public UnityEvent onDeath;
 
+    private void Awake() {
+        currHealth = maxHealth;
+    }
+
     public void Hit(int damage) {
         if (dead) return;
         damage = Mathf.Max(damage, 0);

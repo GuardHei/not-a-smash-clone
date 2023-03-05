@@ -10,5 +10,6 @@ public enum CharacterState {
     HighBlock = 1 << 5,
     LowBlock = 1 << 6,
     Dodge = 1 << 7,
-    Stunned = 1 << 8
+    Stunned = 1 << 8,
+    BlockRecovery = 1 << 9
 }

@@ -59,8 +59,9 @@ public class CharacterMotor : MonoBehaviour {
         var currPos = transform.position;
         
         var moveFilter = new ContactFilter2D {
+            useTriggers = false,
             useLayerMask = true,
-            layerMask = canPush | blockedBy
+            layerMask = canPush | blockedBy,
         };
 
         var displacement = direction * distance;
