@@ -49,27 +49,31 @@ public class Damageable : MonoBehaviour {
         };
     }
 
-    public void TakeDamage(DamageInfo info) {
-        if (info.canBeHighBlocked) {
-            if (controller.currState == CharacterState.HighBlock && motor.facing != info.direction) {
-                var perfectBlock = controller.currFrame - controller.stateStartFrame <= controller.perfectBlockFrames;
-                onHighBlocked?.Invoke(this, info, perfectBlock);
-                return;
+    public bool TakeDamage(DamageInfo info) {
+        if (controller != null && motor != null) {
+            if (info.canBeHighBlocked) {
+                if (controller.currState == CharacterState.HighBlock && motor.facing != info.direction) {
+                    var perfectBlock = controller.currFrame - controller.stateStartFrame <= controller.perfectBlockFrames;
+                    onHighBlocked?.Invoke(this, info, perfectBlock);
+                    return false;
+                }
+            }
+
+            if (info.canBeLowBlocked) {
+                if (controller.currState == CharacterState.LowBlock && motor.facing != info.direction) {
+                    var perfectBlock = controller.currFrame - controller.stateStartFrame <= controller.perfectBlockFrames;
+                    onLowBlocked?.Invoke(this, info, perfectBlock);
+                    return false;
+                }
             }
         }
 
-        if (info.canBeLowBlocked) {
-            if (controller.currState == CharacterState.LowBlock && motor.facing != info.direction) {
-                var perfectBlock = controller.currFrame - controller.stateStartFrame <= controller.perfectBlockFrames;
-                onLowBlocked?.Invoke(this, info, perfectBlock);
-                return;
-            }
-        }
-        
         Utils.Print(tag + " takes " + info.damage + " dmg, aiming " + info.direction);
         
         health.Hit(info.damage);
         onDamaged?.Invoke(this, info);
+
+        return true;
     }
 }
 

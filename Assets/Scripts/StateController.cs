@@ -16,6 +16,14 @@ public class StateController : MonoBehaviour {
     public int fireBallEndFrames;
     public int perfectBlockFrames;
     public int blockEndFrames;
+    
+    [Header("MP Related")]
+    public int maxMp;
+    public int currMp;
+    public int fireBallMpCost;
+    public int hitMpRegen;
+    public int blockMpRegen;
+    public int perfectBlockMpRegen;
 
     [Header("References")]
     public CharacterMotor motor;
@@ -23,6 +31,8 @@ public class StateController : MonoBehaviour {
     public Damageable damageable;
     public HitBox punchHitBox;
     public HitBox kickHitBox;
+    public Transform fireBallOrigin;
+    public GameObject fireBallPrototype;
 
     [Header("Status")]
     public bool damaged;
@@ -40,12 +50,16 @@ public class StateController : MonoBehaviour {
     private void Awake() {
         currState = CharacterState.Idle;
         currCommand = InputCommand.None;
-        
+
         punchHitBox.Deactivate();
         kickHitBox.Deactivate();
 
+        punchHitBox.onHit += () => AddMp(hitMpRegen);
+
         if (damageable != null) {
             damageable.onDamaged += TakeDamage;
+            damageable.onHighBlocked += (dmg, info, perfect) => AddMp(perfect ? perfectBlockMpRegen : blockMpRegen);
+            damageable.onLowBlocked += (dmg, info, perfect) => AddMp(perfect ? perfectBlockMpRegen : blockMpRegen);
         }
     }
 
@@ -129,7 +143,9 @@ public class StateController : MonoBehaviour {
             case InputCommand.MoveRight: StartMove(CharacterFacing.Right); break;
             case InputCommand.Punch: StartPunch(); break;
             case InputCommand.Kick: StartKick(); break;
-            case InputCommand.FireBall: StartFireBall(); break;
+            case InputCommand.FireBall:
+                if (HaveEnoughMpFor(fireBallMpCost)) StartFireBall();
+                break;
             case InputCommand.HighBlock: StartFireBall(); break;
             case InputCommand.LowBlock: StartFireBall(); break;
         }
@@ -153,7 +169,9 @@ public class StateController : MonoBehaviour {
                 break;
             case InputCommand.Punch: StartPunch(); break;
             case InputCommand.Kick: StartKick(); break;
-            case InputCommand.FireBall: StartFireBall(); break;
+            case InputCommand.FireBall:
+                if (HaveEnoughMpFor(fireBallMpCost)) StartFireBall();
+                break;
             case InputCommand.HighBlock: StartFireBall(); break;
             case InputCommand.LowBlock: StartFireBall(); break;
         }
@@ -265,7 +283,18 @@ public class StateController : MonoBehaviour {
     }
 
     private void SpawnFireBall() {
-        
+        ConsumeMp(fireBallMpCost);
+        Instantiate(fireBallPrototype, fireBallOrigin.position, fireBallOrigin.rotation);
+    }
+
+    public void AddMp(int mp) => currMp = Mathf.Min(currMp + mp, maxMp);
+
+    public bool HaveEnoughMpFor(int cost) => currMp >= cost;
+
+    public bool ConsumeMp(int cost) {
+        if (!HaveEnoughMpFor(cost)) return false;
+        currMp -= cost;
+        return true;
     }
 
     public void SendCommand(InputCommand command) {

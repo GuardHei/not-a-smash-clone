@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HitBox : MonoBehaviour {
 
     [Header("Settings")]
+    public bool destroyOnHit;
     public LayerMask mask;
     public string canDamage;
     public int damage;
@@ -11,22 +13,14 @@ public class HitBox : MonoBehaviour {
     public float stunPush;
     public bool canBeHighBlocked;
     public bool canBeLowBlocked;
+    public UnityAction onHit;
 
     [Header("Status")]
     public CharacterFacing direction;
     public bool isEndOfCombo;
     public bool activated;
-    public BoxCollider2D box;
     public List<Damageable> hits = new();
     private List<Collider2D> results = new();
-
-    private void Awake() {
-        box = GetComponent<BoxCollider2D>();
-        box.isTrigger = true;
-        box.enabled = false;
-
-        activated = false;
-    }
 
     public void Activate(CharacterFacing direction, bool isEndOfCombo = false) {
         if (activated) return;
@@ -56,13 +50,15 @@ public class HitBox : MonoBehaviour {
         };
         
         var hitCount = Physics2D.OverlapBox(transform.position, transform.lossyScale, .0f, overlapFilter, results);
+        var damaged = false;
         for (var i = 0; i < hitCount; i++) {
             var hit = results[i];
             if (!hit.CompareTag(canDamage)) continue;
             if (!hit.TryGetComponent(out Damageable damageable)) continue;
             if (hits.Contains(damageable)) continue;
             hits.Add(damageable);
-                    
+
+            damaged = true;
             var damageInfo = new DamageInfo {
                 damage = damage,
                 stunFrames = stunFrames,
@@ -74,7 +70,9 @@ public class HitBox : MonoBehaviour {
                 hitPosition = transform.position
             };
                     
-            damageable.TakeDamage(damageInfo);
+            if (damageable.TakeDamage(damageInfo)) onHit?.Invoke();
         }
+        
+        if (damaged && destroyOnHit) Destroy(gameObject);
     }
 }

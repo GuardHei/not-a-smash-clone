@@ -234,6 +234,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &158177952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 158177953}
+  m_Layer: 6
+  m_Name: FireBallOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &158177953
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158177952}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.85, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1469389391}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &194344888
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,6 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4050f973ed6624b5997e7674f9d6aa41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyOnHit: 0
   mask:
     serializedVersion: 2
     m_Bits: 128
@@ -341,7 +373,6 @@ MonoBehaviour:
   direction: 0
   isEndOfCombo: 0
   activated: 0
-  box: {fileID: 279536722}
   hits: []
 --- !u!61 &279536722
 BoxCollider2D:
@@ -664,24 +695,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &664905280 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8141718923184961720, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-  m_PrefabInstance: {fileID: 1218510544}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &664905284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 664905280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4de11fa0f4e1473ba419e7f908c6f06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ps: {fileID: 0}
 --- !u!1 &746469707
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,6 +921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4050f973ed6624b5997e7674f9d6aa41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyOnHit: 0
   mask:
     serializedVersion: 2
     m_Bits: 128
@@ -920,7 +934,6 @@ MonoBehaviour:
   direction: 0
   isEndOfCombo: 0
   activated: 0
-  box: {fileID: 1000145771}
   hits: []
 --- !u!61 &1000145771
 BoxCollider2D:
@@ -1015,6 +1028,37 @@ Transform:
   m_Father: {fileID: 1469389391}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1019537733
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1019537734}
+  m_Layer: 6
+  m_Name: FireBallOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1019537734
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019537733}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.85, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1049931637}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1049931635
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,6 +1126,7 @@ Transform:
   - {fileID: 1620233649}
   - {fileID: 1682498132}
   - {fileID: 194344889}
+  - {fileID: 1019537734}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1168,15 +1213,23 @@ MonoBehaviour:
   kickStartFrames: 3
   kickDamageFrames: 4
   kickEndFrames: 10
-  fireBallStartFrames: 90
-  fireBallEndFrames: 120
+  fireBallStartFrames: 15
+  fireBallEndFrames: 60
   perfectBlockFrames: 20
   blockEndFrames: 20
+  maxMp: 50
+  currMp: 25
+  fireBallMpCost: 25
+  hitMpRegen: 3
+  blockMpRegen: 5
+  perfectBlockMpRegen: 15
   motor: {fileID: 1049931636}
   animator: {fileID: 0}
   damageable: {fileID: 194344891}
   punchHitBox: {fileID: 1620233652}
   kickHitBox: {fileID: 1682498134}
+  fireBallOrigin: {fileID: 1019537734}
+  fireBallPrototype: {fileID: 8216973207606125804, guid: f25e6a9bcf12b40dab02bbe47b8e2f96, type: 3}
   damaged: 0
   stunFrames: 0
   stunPush: 0
@@ -1336,65 +1389,6 @@ MonoBehaviour:
   normalHitVfx: {fileID: 8141718923184961720, guid: 8243897993e654704addb5e8c57a8471, type: 3}
   blockedHitVfx: {fileID: 8035575678371048824, guid: 5a90695fd4b8e4d2d83df77293205ff0, type: 3}
   perfectBlockVfx: {fileID: 9059311388879059484, guid: 04de02b02a3834c559a0dc8de4404b96, type: 3}
---- !u!1001 &1218510544
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 2
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.3334086
-      objectReference: {fileID: 0}
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.3086243
-      objectReference: {fileID: 0}
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7475261299700994314, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8141718923184961720, guid: 8243897993e654704addb5e8c57a8471, type: 3}
-      propertyPath: m_Name
-      value: normal_hit
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_AddedGameObjects: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8243897993e654704addb5e8c57a8471, type: 3}
 --- !u!1 &1469389384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1524,15 +1518,23 @@ MonoBehaviour:
   kickStartFrames: 3
   kickDamageFrames: 4
   kickEndFrames: 10
-  fireBallStartFrames: 90
-  fireBallEndFrames: 120
+  fireBallStartFrames: 15
+  fireBallEndFrames: 60
   perfectBlockFrames: 20
   blockEndFrames: 20
+  maxMp: 0
+  currMp: 0
+  fireBallMpCost: 0
+  hitMpRegen: 0
+  blockMpRegen: 0
+  perfectBlockMpRegen: 0
   motor: {fileID: 1469389390}
   animator: {fileID: 0}
   damageable: {fileID: 1177257226}
   punchHitBox: {fileID: 279536721}
   kickHitBox: {fileID: 1000145770}
+  fireBallOrigin: {fileID: 158177953}
+  fireBallPrototype: {fileID: 0}
   damaged: 0
   stunFrames: 0
   stunPush: 0
@@ -1588,6 +1590,7 @@ Transform:
   - {fileID: 279536724}
   - {fileID: 1000145773}
   - {fileID: 1177257225}
+  - {fileID: 158177953}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1799,6 +1802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4050f973ed6624b5997e7674f9d6aa41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyOnHit: 0
   mask:
     serializedVersion: 2
     m_Bits: 128
@@ -1811,7 +1815,6 @@ MonoBehaviour:
   direction: 0
   isEndOfCombo: 0
   activated: 0
-  box: {fileID: 1620233651}
   hits: []
 --- !u!1 &1682498131
 GameObject:
@@ -1885,6 +1888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4050f973ed6624b5997e7674f9d6aa41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyOnHit: 0
   mask:
     serializedVersion: 2
     m_Bits: 128
@@ -1897,7 +1901,6 @@ MonoBehaviour:
   direction: 0
   isEndOfCombo: 0
   activated: 0
-  box: {fileID: 1682498133}
   hits: []
 --- !u!212 &1682498135
 SpriteRenderer:
