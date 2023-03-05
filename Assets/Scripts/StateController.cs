@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class StateController : MonoBehaviour {
     
@@ -51,6 +52,11 @@ public class StateController : MonoBehaviour {
     [Range(.0f, 1.0f)]
     public float fireBallVol;
     public float fireBallSfxDelay = 1.0f;
+    public List<AudioClip> footStepSfx;
+    [Range(.0f, 1.0f)]
+    public float footStepVol = 1.0f;
+    public int footStepSfxInterval = 60;
+    public AudioSource footStepSrc;
     
 
     [Header("References")]
@@ -138,6 +144,7 @@ public class StateController : MonoBehaviour {
         moveDirection = direction;
         if (motor.defaultFacing == direction) animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.MoveFront);
         else animator.SetInteger(AnimStateIndex, (int) AnimCharacterState.MoveBack);
+        PlayFootStep();
     }
 
     private void StartPunch() {
@@ -215,6 +222,10 @@ public class StateController : MonoBehaviour {
         }
         
         motor.SweepAndMove(motor.moveSpeed, (int) moveDirection, true);
+
+        if (frameProgress % footStepSfxInterval == 0) {
+            PlayFootStep();
+        }
 
         switch (currCommand) {
             case InputCommand.None: StartIdle(); break;
@@ -362,5 +373,11 @@ public class StateController : MonoBehaviour {
         SFXManager.PlayFixed(mouth, normalHitSfx, normalHitVol);
         damaged = true;
         damageInfo = info;
+    }
+
+    private void PlayFootStep() {
+        if (footStepSrc == null || footStepSfx == null || footStepSfx.Count == 0) return;
+        var sfx = footStepSfx[Random.Range(0, footStepSfx.Count)];
+        SFXManager.PlayFixed(footStepSrc, sfx, footStepVol);
     }
 }
