@@ -1,8 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random;
 using Screen = UnityEngine.Device.Screen;
 
 public class CombatLevelManager : MonoBehaviour {
@@ -14,7 +14,17 @@ public class CombatLevelManager : MonoBehaviour {
 
     [Header("Lights")]
     public Light2D globalUnlitLight;
+    public Light2D lighteningLight;
     public Light2D localPointLight;
+    [Range(1.0f, 60.0f)]
+    public float minLighteningInterval;
+    [Range(1.0f, 60.0f)]
+    public float maxLighteningInterval;
+    public float lighteningIntensity;
+    public float minLighteningPhase1;
+    public float maxLighteningPhase1;
+    public float minLighteningPhase2;
+    public float maxLighteningPhase2;
 
     public Coroutine lastSparkRoutine;
 
@@ -22,17 +32,20 @@ public class CombatLevelManager : MonoBehaviour {
         instance = this;
         SetFramerate();
         
+        lighteningLight.gameObject.SetActive(false);
         localPointLight.gameObject.SetActive(false);
+
+        StartCoroutine(SpawnLighteningRoutine());
     }
 
     public void SetFramerate() {
         var refreshRate = Screen.currentResolution.refreshRate;
         if (refreshRate % targetFrameRate == 0) {
             QualitySettings.vSyncCount = refreshRate / targetFrameRate;
-            print("VSyncCount " + QualitySettings.vSyncCount);
+            Utils.Print("VSyncCount " + QualitySettings.vSyncCount);
         } else {
             Application.targetFrameRate = targetFrameRate;
-            print("Target Frame Rate " + Application.targetFrameRate);
+            Utils.Print("Target Frame Rate " + Application.targetFrameRate);
         }
     }
 
@@ -56,5 +69,26 @@ public class CombatLevelManager : MonoBehaviour {
         }
         localPointLight.intensity = .0f;
         localPointLight.gameObject.SetActive(false);
+    }
+
+    private IEnumerator SpawnLighteningRoutine() {
+        while (true) {
+            var interval = Random.Range(minLighteningInterval, maxLighteningInterval);
+            Utils.Print("Lightening coming in " + interval + "s");
+            yield return new WaitForSeconds(interval);
+            lighteningLight.gameObject.SetActive(true);
+            lighteningLight.intensity = lighteningIntensity;
+            yield return new WaitForSeconds(Random.Range(minLighteningPhase1, maxLighteningPhase1));
+            var phase2 = Random.Range(minLighteningPhase2, maxLighteningPhase2);
+            var startTime = Time.time;
+            var progress = .0f;
+            while (progress < 1.0f) {
+                lighteningLight.intensity = Mathf.Lerp(lighteningIntensity, .0f, progress);
+                yield return null;
+                progress = (Time.time - startTime) / phase2;
+            }
+            lighteningLight.intensity = .0f;
+            lighteningLight.gameObject.SetActive(false);
+        }
     }
 }
