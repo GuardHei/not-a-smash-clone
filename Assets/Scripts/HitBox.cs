@@ -49,7 +49,6 @@ public class HitBox : MonoBehaviour {
 
     private void Update() {
         if (!activated) return;
-        var bounds = box.bounds;
         var overlapFilter = new ContactFilter2D {
             useTriggers = true,
             useLayerMask = true,
@@ -59,13 +58,9 @@ public class HitBox : MonoBehaviour {
         var hitCount = Physics2D.OverlapBox(transform.position, transform.lossyScale, .0f, overlapFilter, results);
         for (var i = 0; i < hitCount; i++) {
             var hit = results[i];
-            Utils.Print("0 ");
             if (!hit.CompareTag(canDamage)) continue;
-            Utils.Print("1");
             if (!hit.TryGetComponent(out Damageable damageable)) continue;
-            Utils.Print("2");
             if (hits.Contains(damageable)) continue;
-            Utils.Print("3");
             hits.Add(damageable);
                     
             var damageInfo = new DamageInfo {
@@ -76,7 +71,7 @@ public class HitBox : MonoBehaviour {
                 canBeLowBlocked = canBeLowBlocked,
                 direction = direction,
                 isEndOfCombo = isEndOfCombo,
-                hitPosition = bounds.center
+                hitPosition = transform.position
             };
                     
             damageable.TakeDamage(damageInfo);

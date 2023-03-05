@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +15,38 @@ public class Damageable : MonoBehaviour {
         if (health == null) health = GetComponent<Health>();
         if (motor == null) motor = GetComponent<CharacterMotor>();
         if (controller == null) controller = GetComponent<StateController>();
+
+        onHighBlocked += (dmg, info, perfect) => {
+            var vfxName = perfect ? VFXManager.PERFECT_BLOCK : VFXManager.BLOCKED_HIT;
+            var vfx = VFXManager.instance.Get(vfxName);
+            vfx.transform.position = info.hitPosition;
+            vfx.SetActive(true);
+            var ps = vfx.GetComponent<ParticleSystem>();
+            ps.Play(true);
+            
+            VFXManager.instance.RecycleOnTime(vfxName, vfx, ps.main.duration + .1f);
+        };
+        
+        onLowBlocked += (dmg, info, perfect) => {
+            var vfxName = perfect ? VFXManager.PERFECT_BLOCK : VFXManager.BLOCKED_HIT;
+            var vfx = VFXManager.instance.Get(vfxName);
+            vfx.transform.position = info.hitPosition;
+            vfx.SetActive(true);
+            var ps = vfx.GetComponent<ParticleSystem>();
+            ps.Play(true);
+            
+            VFXManager.instance.RecycleOnTime(vfxName, vfx, ps.main.duration + .1f);
+        };
+        
+        onDamaged += (dmg, info) => {
+            var vfx = VFXManager.instance.Get(VFXManager.NORMAL_HIT);
+            vfx.transform.position = info.hitPosition;
+            vfx.SetActive(true);
+            var ps = vfx.GetComponent<ParticleSystem>();
+            ps.Play(true);
+            
+            VFXManager.instance.RecycleOnTime(VFXManager.NORMAL_HIT, vfx, ps.main.duration + .1f);
+        };
     }
 
     public void TakeDamage(DamageInfo info) {
@@ -36,7 +66,7 @@ public class Damageable : MonoBehaviour {
             }
         }
         
-        Utils.Print(tag + " takes " + info.damage + " hit, aiming " + info.direction);
+        Utils.Print(tag + " takes " + info.damage + " dmg, aiming " + info.direction);
         
         health.Hit(info.damage);
         onDamaged?.Invoke(this, info);

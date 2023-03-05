@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Utils {
 
-    public static bool OutputsDebugInfo = false;
+    public static bool OutputsDebugInfo = true;
 
     public static bool Contains(this LayerMask mask, int layer) => mask == (mask | (1 << layer));
     
