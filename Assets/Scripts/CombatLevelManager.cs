@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 using Screen = UnityEngine.Device.Screen;
 
@@ -11,6 +12,24 @@ public class CombatLevelManager : MonoBehaviour {
     
     [Range(30, 240)]
     public int targetFrameRate = 60;
+    public KeyCode restartKey = KeyCode.Backspace;
+
+    [Header("Gameplay")]
+    public GameObject player;
+    public GameObject opponent;
+    public KO ko;
+    public GameObject winUI;
+    public GameObject loseUI;
+    public GameObject ui3;
+    public GameObject ui2;
+    public GameObject ui1;
+    public GameObject uiStart;
+    public AudioClip openingSfx;
+    public float timeTo3;
+    public float timeTo2;
+    public float timeTo1;
+    public float timeToStart;
+    public float timeToEnd;
 
     [Header("Lights")]
     public Light2D globalUnlitLight;
@@ -38,8 +57,12 @@ public class CombatLevelManager : MonoBehaviour {
         
         lighteningLight.gameObject.SetActive(false);
         localPointLight.gameObject.SetActive(false);
+        
+        GameStart();
+    }
 
-        StartCoroutine(SpawnLighteningRoutine());
+    private void Update() {
+        if (Input.GetKeyUp(restartKey)) Restart();
     }
 
     public void SetFramerate() {
@@ -53,6 +76,57 @@ public class CombatLevelManager : MonoBehaviour {
         }
     }
 
+    public void GameStart() {
+        if (winUI != null) winUI.SetActive(false);
+        if (loseUI != null) loseUI.SetActive(false);
+        if (ui1 != null) ui1.SetActive(false);
+        if (ui2 != null) ui2.SetActive(false);
+        if (ui3 != null) ui3.SetActive(false);
+        if (uiStart != null) uiStart.SetActive(false);
+        SetControl(false, false);
+        StartCoroutine(GameStartRoutine());
+    }
+
+    private IEnumerator GameStartRoutine() {
+        yield return new WaitForSeconds(timeTo3);
+        if (ui3 != null) ui3.SetActive(true);
+        yield return new WaitForSeconds(timeTo2);
+        if (ui2 != null) ui2.SetActive(true);
+        if (ui3 != null) ui3.SetActive(false);
+        yield return new WaitForSeconds(timeTo1);
+        if (ui1 != null) ui1.SetActive(true);
+        if (ui2 != null) ui2.SetActive(false);
+        yield return new WaitForSeconds(timeToStart);
+        if (uiStart != null) uiStart.SetActive(true);
+        if (ui1 != null) ui1.SetActive(false);
+        SetControl(true, true);
+        StartCoroutine(SpawnLighteningRoutine());
+        yield return new WaitForSeconds(timeToEnd);
+        if (uiStart != null) uiStart.SetActive(true);
+    }
+
+    public void PlayerWin() {
+        if (winUI != null) winUI.SetActive(true);
+        GameOver();
+    }
+
+    public void PlayerLose() {
+        if (loseUI != null) winUI.SetActive(true);
+        GameOver();
+    }
+
+    public void GameOver() {
+        SetControl(false, false);
+        if (ko != null) ko.Play();
+    }
+
+    public void SetControl(bool p, bool o) {
+        player.GetComponent<PlayerInput>().enabled = p;
+        
+    }
+
+    public void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    
     public static void SparkLocally(Vector2 pos, float phase1 = 1.0f, float phase2 = 2.0f, float intensity = 1.0f, float scale = 12.0f) {
         if (instance.lastSparkRoutine != null) instance.StopCoroutine(instance.lastSparkRoutine);
         instance.lastSparkRoutine = instance.StartCoroutine(instance.SparkLocallyRoutine(pos, phase1, phase2, intensity, scale));
