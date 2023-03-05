@@ -37,6 +37,7 @@ public class CombatLevelManager : MonoBehaviour {
     public Light2D globalUnlitLight;
     public Light2D lighteningLight;
     public Light2D localPointLight;
+    public Light2D koLight;
     [Range(1.0f, 60.0f)]
     public float minLighteningInterval;
     [Range(1.0f, 60.0f)]
@@ -121,10 +122,12 @@ public class CombatLevelManager : MonoBehaviour {
         SetControl(false, false);
         if (lastSparkRoutine != null) StopCoroutine(lastSparkRoutine);
         StopAllCoroutines();
-        localPointLight.gameObject.SetActive(true);
-        localPointLight.transform.position = (player.transform.position + opponent.transform.position) * .5f;
-        localPointLight.intensity = koLightIntensity;
-        localPointLight.transform.localScale = new Vector3(koLightScale, koLightScale, 1.0f);
+        if (koLight) {
+            koLight.gameObject.SetActive(true);
+            koLight.transform.position = (player.transform.position + opponent.transform.position) * .5f;
+            koLight.intensity = koLightIntensity;
+            koLight.transform.localScale = new Vector3(koLightScale, koLightScale, 1.0f);
+        }
         if (ko != null) ko.Play();
     }
 

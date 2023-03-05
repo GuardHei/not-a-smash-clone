@@ -93,7 +93,7 @@ public class EnemyInput : MonoBehaviour
             }
             else if (controller.currState == CharacterState.Stunned)
             {
-                Debug.Log("Combo over");
+                // Debug.Log("Combo over");
                 executingCombo = false;
             }
             else if (controller.currState == CharacterState.HighBlock)
@@ -141,22 +141,22 @@ public class EnemyInput : MonoBehaviour
             float distFromPlayer = Mathf.Abs(playerT.transform.position.x - transform.position.x);
             if (distFromPlayer <= closeToPlayerRange) //Player is close!
             {
-                Debug.Log("player is close");
+                // Debug.Log("player is close");
                 //Either attack, block, or make a retreat.
                 int decision = Random.Range(0, 10);
                 if (decision <= 4)
                 {
-                    Debug.Log("Starting combo");
+                    // Debug.Log("Starting combo");
                     StartCombo();
                 }
                 else if (decision <= 8)
                 {
-                    Debug.Log("Starting block");
+                    // Debug.Log("Starting block");
                     StartBlock();
                 }
                 else
                 {
-                    Debug.Log("Starting retreat");
+                    // Debug.Log("Starting retreat");
                     StartRetreat();
                 }
             }
@@ -166,17 +166,17 @@ public class EnemyInput : MonoBehaviour
                 int decision = Random.Range(0, 10);
                 if (decision <= 5)
                 {
-                    Debug.Log("Starting approach");
+                    // Debug.Log("Starting approach");
                     StartApproach();
                 }
                 else if (decision <= 8)
                 {
-                    Debug.Log("Starting wait");
+                    // Debug.Log("Starting wait");
                     StartWait();
                 }
                 else
                 {
-                    Debug.Log("Starting fireball");
+                    // Debug.Log("Starting fireball");
                     StartFireball();
                 }
             }
