@@ -18,6 +18,8 @@ public class CombatLevelManager : MonoBehaviour {
     public GameObject player;
     public GameObject opponent;
     public KO ko;
+    public float koLightScale = 12.0f;
+    public float koLightIntensity = 1.0f;
     public GameObject winUI;
     public GameObject loseUI;
     public GameObject ui3;
@@ -117,12 +119,20 @@ public class CombatLevelManager : MonoBehaviour {
 
     public void GameOver() {
         SetControl(false, false);
+        if (lastSparkRoutine != null) StopCoroutine(lastSparkRoutine);
+        StopAllCoroutines();
+        localPointLight.gameObject.SetActive(true);
+        localPointLight.transform.position = (player.transform.position + opponent.transform.position) * .5f;
+        localPointLight.intensity = koLightIntensity;
+        localPointLight.transform.localScale = new Vector3(koLightScale, koLightScale, 1.0f);
         if (ko != null) ko.Play();
     }
 
     public void SetControl(bool p, bool o) {
         player.GetComponent<PlayerInput>().enabled = p;
-        
+        if (!p) player.GetComponent<StateController>().SendCommand(InputCommand.None);
+        opponent.GetComponent<EnemyInput>().enabled = o;
+        if (!o) opponent.GetComponent<StateController>().SendCommand(InputCommand.None);
     }
 
     public void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

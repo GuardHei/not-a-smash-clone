@@ -2374,7 +2374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb2152b98e4744439c346445e53e162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 1
   currHealth: 0
   dead: 0
   onHit:
@@ -2409,7 +2409,19 @@ MonoBehaviour:
         m_CallState: 2
   onDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1191140416}
+        m_TargetAssemblyTypeName: CombatLevelManager, Assembly-CSharp
+        m_MethodName: PlayerLose
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!82 &1049931644
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2702,8 +2714,20 @@ MonoBehaviour:
   player: {fileID: 1049931635}
   opponent: {fileID: 1469389384}
   ko: {fileID: 1522944873}
+  koLightScale: 12
+  koLightIntensity: 1
   winUI: {fileID: 321353850}
   loseUI: {fileID: 1162190025}
+  ui3: {fileID: 0}
+  ui2: {fileID: 0}
+  ui1: {fileID: 0}
+  uiStart: {fileID: 0}
+  openingSfx: {fileID: 0}
+  timeTo3: 0
+  timeTo2: 0
+  timeTo1: 0
+  timeToStart: 0
+  timeToEnd: 0
   globalUnlitLight: {fileID: 2085924256}
   lighteningLight: {fileID: 911126831}
   localPointLight: {fileID: 619394801}
@@ -2951,6 +2975,7 @@ GameObject:
   - component: {fileID: 1469389386}
   - component: {fileID: 1469389385}
   - component: {fileID: 1469389392}
+  - component: {fileID: 1469389393}
   m_Layer: 6
   m_Name: Opponent
   m_TagString: Opponent
@@ -3007,7 +3032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb2152b98e4744439c346445e53e162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 1
   currHealth: 0
   dead: 0
   onHit:
@@ -3042,7 +3067,19 @@ MonoBehaviour:
         m_CallState: 1
   onDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1191140416}
+        m_TargetAssemblyTypeName: CombatLevelManager, Assembly-CSharp
+        m_MethodName: PlayerWin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1469389388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3050,7 +3087,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1469389384}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1093fe5e96a346f2a160211568e5c17, type: 3}
   m_Name: 
@@ -3292,6 +3329,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1469389393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469389384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ca6a5a4a68d84938a52bed5f7db0325, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 0}
+  playerT: {fileID: 0}
+  attackStrings: []
+  executingCombo: 0
+  comboIdx: 0
+  currCombo: 0
+  executingMiscAction: 0
+  miscActionType: 0
+  actionTimer: 0
+  executingSimpleAction: 0
 --- !u!1 &1522944869
 GameObject:
   m_ObjectHideFlags: 0
@@ -3345,7 +3404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3381,7 +3440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9df9d7ed69f14c5dba91062df70d62c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  img: {fileID: 0}
+  img: {fileID: 1522944871}
   animDuration: 3
 --- !u!1 &1593848024
 GameObject:

@@ -26,10 +26,10 @@ public class KO : MonoBehaviour {
 
     private IEnumerator AnimRoutine() {
         var startTime = Time.time;
-        var currTime = startTime;
-        var progress = currTime - startTime;
+        var progress = .0f;
         while (progress < animDuration) {
             yield return null;
+            progress = Time.time - startTime;
             img.fillAmount = progress / animDuration;
         }
         img.fillAmount = 1.0f;
